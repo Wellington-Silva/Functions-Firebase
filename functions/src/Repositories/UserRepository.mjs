@@ -8,8 +8,13 @@ class UserRepository {
     }
 
     async listUsers() {
-        const users = await this.#database.collection("users").get();
-        return users;
+        const usersRef = this.#database.collection("users");
+        const users = await usersRef.where("createdAt", "!=", null).limit(10).get();
+        if (users.empty) return "Nenhum usuário encontrado";
+        return users.docs.map(user => {
+            const userData = user.data();
+            return { ...userData, uid: user.id };
+        });
     };
 
     async getUserByUid(uid) {

@@ -1,12 +1,14 @@
-import userService from "../Services/userService.mjs";
+import userService from "../Services/UserService.mjs";
 
 class UserController {
 
-    async list() {
+    async list(req, res) {
         try {
             const users = await userService.list();
-            return users;
+            res.json(users);
+            return;
         } catch (error) {
+            console.log("LOG: ", error)
             throw new Error(error || "Error listing users");
         }
     };

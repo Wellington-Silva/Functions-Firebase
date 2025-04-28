@@ -4,6 +4,7 @@ class UserService {
     
     async list() {
         const users = await UserRepository.listUsers();
+        console.log("LOG: ", users);
         return users;
     };
 
@@ -26,8 +27,8 @@ class UserService {
             createdAt: new Date()
         };
 
-        const user = await UserRepository.createUser(userData);
-        return user;
+        const userCreated = await UserRepository.createUser(userData);
+        return userCreated;
     };
 
     async update(data) {
