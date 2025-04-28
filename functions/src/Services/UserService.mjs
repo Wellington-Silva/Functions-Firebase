@@ -1,10 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import UserRepository from '../Repositories/UserRepository.mjs';
 
 class UserService {
     
     async list() {
         const users = await UserRepository.listUsers();
-        console.log("LOG: ", users);
         return users;
     };
 
@@ -14,20 +14,20 @@ class UserService {
     };
 
     async create(user) {
+        const uid = uuidv4();
         const userData = {
-            name: user.name.toString(),
-            age: parseInt(user.age),
+            name: user.name,
+            age: user.age,
             address: {
-                number: parseInt(user.address.number),
-                streetName: user.address.street.toString(),
-                cityName: user.address.city.toString(),
-                state: user.address.state.toString(),
-                placeId: user.address.placeId.toString()
-            },
-            createdAt: new Date()
+                number: user.address.number,
+                streetName: user.address.streetName,
+                cityName: user.address.cityName,
+                state: user.address.state,
+                placeId: user.address.placeId
+            }
         };
 
-        const userCreated = await UserRepository.createUser(userData);
+        const userCreated = await UserRepository.createUser(uid, userData);
         return userCreated;
     };
 

@@ -13,37 +13,47 @@ class UserController {
         }
     };
 
-    async show(id) {
+    async show(req, res) {
         try {
-            const user = await userService.show(id);
-            return user;
+            const { uid } = req.query;
+            const user = await userService.show(uid);
+            res.json(user);
+            return;
         } catch (error) {
             throw new Error(error || "Error showing user");
         }
     };
 
-    async create(user) {
-        try {   
-            const newUser = await userService.create(user);
-            return newUser;
+    async create(req, res) {
+        const { name, age, address } = req.body;
+        try {
+            const userData = { name, age , address };
+            const newUser = await userService.create(userData);
+            res.json(newUser);
+            return;
         } catch (error) {
             throw new Error(error || "Error creating user");
         }
     };
 
-    async update(data) {
+    async update(req, res) {
+        const { name, age, address } = req.body;
+        const data = { id: req.query.uid, name, age, address };
         try {
             const updatedUser = await userService.update(data);
-            return updatedUser;
+            res.json(updatedUser);
+            return;
         } catch (error) {
             throw new Error(error || "Error updating user");        
         }
     };
 
-    async delete(id) {
+    async delete(req, res) {
+        const uid = req.query.uid;
         try {
-            const deletedUser = await userService.delete(id); 
-            return deletedUser;
+            const deletedUser = await userService.delete(uid); 
+            res.json(deletedUser);
+            return;
         } catch (error) {
             throw new Error(error || "Error deleting user");
         }

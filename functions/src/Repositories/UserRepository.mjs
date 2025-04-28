@@ -25,7 +25,8 @@ class UserRepository {
         return { ...userData, uid };
     };
 
-    async createUser(uid, data){
+    async createUser(uid, data) {
+        console.log("LOG: ", data);
         const userData = { ...data, createdAt: Timestamp.now() };
         await this.#database.collection("users").doc(uid).set(userData);
         return { uid, ...userData };
