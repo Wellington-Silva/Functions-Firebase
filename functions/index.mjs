@@ -7,4 +7,5 @@ export const showuser = onRequest(UserController.show);
 export const createuser = onRequest(UserController.create);
 export const updateuser = onRequest(UserController.update);
 export const deleteuser = onRequest(UserController.delete);
-export const processdata = onRequest(TransformationService.processData);
+export const processdata = onRequest((req, res) => TransformationService.processData(req, res));
+
