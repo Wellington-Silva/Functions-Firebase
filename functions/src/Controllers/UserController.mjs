@@ -26,6 +26,15 @@ class UserController {
 
     async create(req, res) {
         const { name, age, address } = req.body;
+
+        if (!name || typeof name !== "string" || name.length < 3) {
+            return res.status(400).json({ error: "Nome é obrigatório e deve ter ao menos 3 caracteres." });
+        }
+    
+        if (!age || isNaN(age)) {
+            return res.status(400).json({ error: "Idade inválida ou não informada." });
+        }
+
         try {
             const userData = { name, age , address };
             const newUser = await userService.create(userData);

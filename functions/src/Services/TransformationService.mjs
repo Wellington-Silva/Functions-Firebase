@@ -48,9 +48,11 @@ class TransformationService {
             };
 
             const serializedMountedData = data.map(dt => {
+                if (!dt?.json?.data) throw new Error("Campo json.data ausente ou inválido");
+            
                 const tempDataJson = JSON.parse(dt.json.data);
                 delete dt.json.data;
-
+            
                 return {
                     ...dt,
                     json: {
@@ -58,8 +60,8 @@ class TransformationService {
                         ...this.parseObjectToTableJSON(tempDataJson),
                     }
                 };
-
             });
+            
 
             console.log(serializedMountedData);
 
