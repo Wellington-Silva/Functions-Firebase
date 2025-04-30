@@ -5,8 +5,19 @@ class TransformationService {
      * @param { string } dataStr
      * @returns { object }
     */
-    #mountData(dataStr){
-        console.log("Internal Data :", dataStr);
+    #mountData(dataStrOrObj){
+        // Se for string, tenta fazer o parse
+        if (typeof dataStrOrObj === 'string') {
+            return JSON.parse(dataStrOrObj);
+        }
+
+        // Se já for objeto, retorna direto
+        if (typeof dataStrOrObj === 'object' && dataStrOrObj !== null) {
+            return dataStrOrObj;
+        }
+
+        console.warn("Formato de dado não suportado:", dataStrOrObj);
+        return null;
         // const dataObj = JSON.parse(data);
         
         // const columnsFather = Object.keys(dataObj);
@@ -37,7 +48,8 @@ class TransformationService {
                 return res.status(400).send('Payload de dados inválido.');
             };
 
-            console.log(data[0].json, this.#mountData(data[0].json))
+            const mountedData = this.#mountData(data[0].json);
+            console.log(data[0].json, mountedData);
             
             // const responseObject = data.map(payload => ({ ...payload, json: { ...payload.json, ...this.#mountData(payload.json.data) } }));
             return res.status(200).json({ message: "Resposta" });
