@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import UserRepository from '../Repositories/UserRepository.mjs';
+import UserRepository from '../repositories/UserRepository.mjs';
 
 class UserService {
     
