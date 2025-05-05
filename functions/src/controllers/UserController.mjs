@@ -1,4 +1,5 @@
 import userService from "../services/UserService.mjs";
+import { validateUser } from "../schemas/UserSchema.mjs";
 
 class UserController {
 
@@ -40,6 +41,9 @@ class UserController {
         if (!age || isNaN(age)) {
             return res.status(400).json({ error: "Idade inválida ou não informada." });
         }
+
+        const { error, message } = validateUser(req.body);
+        if (error) return res.json({ error: true, message: message });
 
         try {
             const userData = { name, age , address };
